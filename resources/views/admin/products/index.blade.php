@@ -17,7 +17,7 @@
             <th>Danh mục</th>
             <th>Giá</th>
             <th>Giá KM</th>
-            <th>Stock</th>
+            <th>Số lượng</th>
             <th>Hình ảnh</th>
             <th>Hành động</th>
         </tr>

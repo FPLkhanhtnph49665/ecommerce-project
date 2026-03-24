@@ -9,19 +9,20 @@ use App\Models\Category;
 class CategorySeeder extends Seeder
 {
     public function run()
-    {
-        $categories = [
-            'Bàn ghế',
-            'Kệ & Tủ',
-            'Ghế & Nội thất ăn uống',
-            'Đèn & Trang trí',
-        ];
+{
+    $categories = [
+        'Quần Ất Dậu',
+        'Quần Jean',
+        'Quần Tây',
+        'Quần Short',
+        'Quần Thể Thao',
+    ];
 
-        foreach ($categories as $name) {
-            Category::create([
-                'name' => $name,
-                'slug' => Str::slug($name),
-            ]);
-        }
+    foreach ($categories as $name) {
+        Category::create([
+            'name' => $name,
+            'slug' => Str::slug($name),
+        ]);
     }
+}
 }

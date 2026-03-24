@@ -1,47 +1,39 @@
 @extends('layouts.client')
 
-@section('title', 'Trang chủ')
-
 @section('content')
 
-    <!-- 🔥 HERO BANNER -->
-    <div class="bg-dark text-white p-5 mb-5 rounded">
-        <div class="container">
-            <h1 class="display-5 fw-bold">Chào mừng đến với E-Commerce</h1>
-            <p class="lead">Nơi mua sắm uy tín – Giá tốt – Giao hàng nhanh</p>
-            <a href="{{ route('products.index') }}" class="btn btn-warning btn-lg">
-                Mua sắm ngay
-            </a>
-        </div>
-    </div>
-
-    <!-- 🛍️ SẢN PHẨM MỚI -->
     <div class="container">
-        <h2 class="mb-4 fw-bold">🔥 Sản phẩm mới</h2>
+
+        <!-- TITLE + FILTER (basic) -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold">Danh sách sản phẩm</h2>
+
+            <!-- Có thể mở rộng filter sau -->
+            <select class="form-select w-auto">
+                <option>Sắp xếp</option>
+                <option>Giá tăng dần</option>
+                <option>Giá giảm dần</option>
+            </select>
+        </div>
 
         <div class="row">
-            @foreach($latestProducts as $product)
+            @foreach($products as $product)
                 <div class="col-md-3 mb-4">
                     <div class="card h-100 shadow-sm border-0">
 
-                        <!-- ẢNH -->
+                        <!-- IMAGE -->
                         <div class="position-relative">
-                            @if($product->image)
-                                <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top"
-                                    style="height:220px; object-fit:cover;">
-                            @else
-                                <img src="{{ asset('images/placeholder.png') }}" class="card-img-top"
-                                    style="height:220px; object-fit:cover;">
-                            @endif
+                            <img src="{{ $product->image ? asset('storage/' . $product->image) : asset('images/placeholder.png') }}"
+                                class="card-img-top" style="height:220px; object-fit:cover;">
 
-                            <!-- BADGE SALE -->
+                            <!-- SALE -->
                             @if($product->sale_price)
                                 <span class="badge bg-danger position-absolute top-0 start-0 m-2">
                                     SALE
                                 </span>
                             @endif
 
-                            <!-- HẾT HÀNG -->
+                            <!-- OUT OF STOCK -->
                             @if($product->stock == 0)
                                 <span class="badge bg-secondary position-absolute top-0 end-0 m-2">
                                     Hết hàng
@@ -51,13 +43,14 @@
 
                         <!-- BODY -->
                         <div class="card-body d-flex flex-column">
-                            <h6 class="card-title fw-semibold">
+
+                            <h6 class="fw-semibold">
                                 {{ $product->name }}
                             </h6>
 
-                            <!-- GIÁ -->
+                            <!-- PRICE -->
                             @if($product->sale_price)
-                                <p class="mb-1">
+                                <div>
                                     <span class="text-danger fw-bold fs-5">
                                         {{ number_format($product->sale_price, 0, ',', '.') }} đ
                                     </span>
@@ -65,20 +58,18 @@
                                     <small class="text-muted text-decoration-line-through">
                                         {{ number_format($product->price, 0, ',', '.') }} đ
                                     </small>
-                                </p>
+                                </div>
                             @else
                                 <p class="text-danger fw-bold fs-5">
                                     {{ number_format($product->price, 0, ',', '.') }} đ
                                 </p>
                             @endif
 
-                            <!-- TRẠNG THÁI -->
+                            <!-- STATUS -->
                             @if($product->stock > 0)
                                 <span class="badge bg-success mb-2">Còn hàng</span>
                             @else
-                                <button class="btn btn-secondary btn-sm w-50" disabled>
-                                    Hết hàng
-                                </button>
+                                <span class="badge bg-danger mb-2">Hết hàng</span>
                             @endif
 
                             <!-- ACTION -->
@@ -98,6 +89,7 @@
                                 @endif
 
                             </div>
+
                         </div>
 
                     </div>
@@ -105,12 +97,11 @@
             @endforeach
         </div>
 
-        <!-- XEM TẤT CẢ -->
-        <div class="text-center mt-4">
-            <a href="{{ route('products.index') }}" class="btn btn-dark">
-                Xem tất cả sản phẩm
-            </a>
+        <!-- PAGINATION -->
+        <div class="d-flex justify-content-center">
+            {{ $products->links() }}
         </div>
+
     </div>
 
 @endsection
