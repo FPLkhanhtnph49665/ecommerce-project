@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\ProductVariant;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -15,67 +16,56 @@ class CartController extends Controller
         return view('client.cart.index', compact('cart'));
     }
 
-    // Thêm sản phẩm
-    public function add($id)
+    public function add(Request $request, $id)
 {
-    $product = Product::findOrFail($id);
-
-    if ($product->stock <= 0) {
-        return back()->with('error', 'Sản phẩm đã hết hàng');
-    }
+    $variant = ProductVariant::findOrFail($request->variant_id);
 
     $cart = session()->get('cart', []);
 
-    if (isset($cart[$id])) {
+    $key = $variant->id;
 
-        if ($cart[$id]['quantity'] < $product->stock) {
-            $cart[$id]['quantity']++;
-        } else {
-            return back()->with('error', 'Đã đạt số lượng tối đa');
-        }
+     if ($variant->stock < $request->quantity) {
+        return back()->with('error', 'Sản phẩm không đủ hàng');
+    }
 
+     if ($variant->stock < $request->quantity) {
+        return back()->with('error', 'Sản phẩm không đủ hàng');
+    }
+    if (isset($cart[$key])) {
+        $cart[$key]['quantity'] += $request->quantity;
     } else {
-
-        $cart[$id] = [
-            'name' => $product->name,
-            'price' => $product->sale_price ?? $product->price,
-            'image' => $product->image,
-            'quantity' => 1
+        $cart[$key] = [
+            'product_id' => $id,
+            'variant_id' => $variant->id,
+            'name' => $variant->product->name,
+            'color' => $variant->color,
+            'size' => $variant->size,
+            'price' => $variant->sale_price ?? $variant->price,
+            'image' => $variant->image ?? $variant->product->image,
+            'quantity' => $request->quantity
         ];
     }
 
     session()->put('cart', $cart);
 
-    return back()->with('success', 'Đã thêm vào giỏ hàng');
+    return response()->json(['success' => true]);
 }
 
-    // Update số lượng
-    public function update(Request $request, $id)
+    public function update(Request $request, $variant_id)
     {
-        $request->validate([
-            'quantity' => 'required|integer|min:1|max:100'
-        ]);
-
-        $cart = session()->get('cart', []);
-
-        if (isset($cart[$id])) {
-            $cart[$id]['quantity'] = $request->quantity;
+        $cart = session()->get('cart');
+        if(isset($cart[$variant_id])){
+            $cart[$variant_id]['quantity'] = $request->quantity;
             session()->put('cart', $cart);
         }
-
-        return back()->with('success', 'Cập nhật thành công');
+        return back();
     }
 
-    // Xóa
-    public function remove($id)
+    public function remove($variant_id)
     {
         $cart = session()->get('cart', []);
-
-        if (isset($cart[$id])) {
-            unset($cart[$id]);
-            session()->put('cart', $cart);
-        }
-
-        return back()->with('success', 'Đã xóa sản phẩm');
+        unset($cart[$variant_id]);
+        session()->put('cart', $cart);
+        return back();
     }
 }
