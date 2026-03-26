@@ -5,78 +5,43 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use App\Models\Product;
-use App\Models\ProductVariant;
 
 class ProductSeeder extends Seeder
 {
     public function run()
     {
-        $products = [
-            [
-                'category_id' => 1,
-                'name' => 'Quần Jean Ất Dậu Wash Bụi',
-                'slug' => Str::slug('Quần Jean Ất Dậu Wash Bụi'),
-                'price' => 450000,
-                'sale_price' => 390000,
-                'stock' => 20,
-                'image' => 'products/quan_jean_atdau.jpg',
-                'description' => 'Quần jean phong cách bụi bặm, chất vải dày dặn, form chuẩn.',
-
-                'variants' => [
-                    ['color' => 'Xanh', 'size' => 'S', 'price' => 390000, 'stock' => 5],
-                    ['color' => 'Đen', 'size' => 'M', 'price' => 390000, 'stock' => 10],
-                    ['color' => 'Xanh', 'size' => 'L', 'price' => 390000, 'stock' => 5],
-                ],
-            ],
-            [
-                'category_id' => 2,
-                'name' => 'Quần Tây Ất Dậu Slimfit',
-                'slug' => Str::slug('Quần Tây Ất Dậu Slimfit'),
-                'price' => 500000,
-                'sale_price' => 450000,
-                'stock' => 15,
-                'image' => 'products/quan_tay_atdau.jpg',
-                'description' => 'Quần tây form slimfit lịch lãm, phù hợp đi làm và sự kiện.',
-
-                'variants' => [
-                    ['color' => 'Đen', 'size' => '29', 'price' => 40000, 'stock' => 5],
-                    ['color' => 'Xanh', 'size' => '30', 'price' => 50000, 'stock' => 5],
-                    ['color' => 'Đen', 'size' => '31', 'price' => 450000, 'stock' => 5],
-                ],
-            ],
+        $names = [
+            'Quần Jean Ất Dậu Wash Bụi',
+            'Quần Tây Slimfit Công Sở',
+            'Áo Thun Basic Cotton',
+            'Áo Sơ Mi Trắng Hàn Quốc',
+            'Áo Hoodie Streetwear',
+            'Quần Short Thể Thao',
+            'Áo Polo Cao Cấp',
+            'Quần Kaki Nam',
+            'Áo Khoác Bomber',
+            'Áo Len Mùa Đông',
+            'Quần Jogger',
+            'Áo Tank Top Gym',
+            'Áo Khoác Jeans',
+            'Quần Tây Premium',
+            'Áo Sơ Mi Denim',
         ];
 
-        foreach ($products as $p) {
+        foreach ($names as $name) {
 
-            $product = Product::create([
-                'category_id' => $p['category_id'],
-                'name' => $p['name'],
-                'slug' => $p['slug'],
-                'price' => $p['price'],
-                'sale_price' => $p['sale_price'],
-                'stock' => $p['stock'],
-                'image' => $p['image'],
-                'description' => $p['description'],
+            $price = rand(250000, 700000);
+
+            Product::create([
+                'category_id' => rand(1, 3),
+                'name' => $name,
+                'slug' => Str::slug($name),
+                'price' => $price,
+                'sale_price' => $price - rand(20000, 80000),
+                'stock' => 20,
+                'image' => 'products/default.jpg',
+                'description' => $name . ' chất lượng cao.',
             ]);
-
-            foreach ($p['variants'] as $index => $v) {
-
-                ProductVariant::create([
-                    'product_id' => $product->id,
-
-                    'color' => $v['color'],
-                    'size' => $v['size'],
-
-                    'sku' => strtoupper(Str::slug($product->name))
-                        . '-' . $v['size']
-                        . '-' . strtoupper(substr($v['color'], 0, 2)),
-
-                    'price' => $v['price'],
-                    'sale_price' => null,
-
-                    'stock' => $v['stock'],
-                ]);
-            }
         }
     }
 }

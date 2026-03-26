@@ -1,17 +1,16 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
-// use App\Http\Controllers\Admin\OrderController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\OrderController;
-
-
-use App\Http\Controllers\Client\ProductController as ClientProductController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProductVariantController;
 use App\Http\Controllers\Client\CartController as ClientCartController;
 use App\Http\Controllers\Client\CheckoutController as ClientCheckoutController;
 use App\Http\Controllers\Client\OrderController as ClientOrderController;
+use App\Http\Controllers\Client\ProductController as ClientProductController;
+use App\Http\Controllers\Client\ProfileController as ClientProfileController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 // Trang client
@@ -20,12 +19,12 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/sanpham', [ClientProductController::class, 'index'])->name('products.index');
 Route::get('/sanpham/{slug}', [ClientProductController::class, 'show'])->name('products.show');
-
+Route::get('/ho-so-ca-nhan', [ClientProfileController::class, 'index'])->name('profile.index');
 Route::prefix('cart')->group(function () {
     Route::get('/', [ClientCartController::class, 'index'])->name('cart.index');
     Route::post('/them/{id}', [ClientCartController::class, 'add'])->name('cart.add');
     Route::post('/cap-nhat/{id}', [ClientCartController::class, 'update'])->name('cart.update');
-    Route::get('/xoa/{id}', [ClientCartController::class, 'remove'])->name('cart.remove');
+    Route::delete('/xoa/{id}', [ClientCartController::class, 'remove'])->name('cart.remove');
 });
 
 
@@ -39,8 +38,9 @@ Route::post('/checkout', [ClientCheckoutController::class, 'store'])
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/orders', [ClientOrderController::class, 'index'])->name('orders.index');
-    Route::get('/orders/{id}', [ClientOrderController::class, 'show'])->name('orders.show');
+    Route::get('/don-hang', [ClientOrderController::class, 'index'])->name('orders.index');
+    Route::get('/don-hang/{id}', [ClientOrderController::class, 'show'])->name('orders.show');
+    Route::patch('/don-hang/{id}/huy', [ClientOrderController::class, 'cancel'])->name('orders.cancel');
 });
 
 // Route admin gộp vào web.php luôn
@@ -49,9 +49,14 @@ Route::prefix('admin')
     ->name('admin.')
     ->group(function () {
         Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
-        Route::resource('products', ProductController::class);
         Route::resource('categories', CategoryController::class);
+        Route::resource('products', ProductController::class);
+        Route::resource('variants', ProductVariantController::class);
         Route::resource('orders', OrderController::class);
         Route::post('/orders/{id}/status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+        // Route::patch('/orders/{id}/confirm', [OrderController::class, 'confirmOrder']);->name('admin.orders.confirm');
+        Route::post('orders/{order}/confirm', [OrderController::class, 'confirmOrder'])->name('orders.confirm');
+        Route::post('orders/{order}/cancel', [OrderController::class, 'cancelOrder'])->name('orders.cancel');
+
     });
 require __DIR__.'/auth.php';

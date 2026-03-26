@@ -33,6 +33,13 @@
                 <span>Sản phẩm</span>
             </a>
         </li>
+        <li>
+            <a href="{{ route('admin.variants.index') }}"
+               class="nav-link d-flex align-items-center gap-2 text-white {{ request()->routeIs('admin.products.*') ? 'active bg-primary shadow-sm' : '' }}">
+                <i class="bi bi-box-seam"></i>
+                <span>Biến thể sản phẩm</span>
+            </a>
+        </li>
 
         <li>
             <a href="{{ route('admin.orders.index') }}"

@@ -18,24 +18,33 @@ class ProductVariantSeeder extends Seeder
 
         foreach ($products as $product) {
 
+            // Giá gốc
+            $basePrice = $product->sale_price ?? $product->price;
+
             foreach ($colors as $color) {
                 foreach ($sizes as $size) {
 
-                    $basePrice = $product->sale_price ?? $product->price;
+                    $sku = 'P' . $product->id
+                        . '-' . $size
+                        . '-' . strtoupper(substr(Str::slug($color), 0, 1));
 
-                    ProductVariant::create([
-                        'product_id' => $product->id,
+                    $discountPercent = rand(15, 30);
 
-                        'color' => $color,
-                        'size' => $size,
+                    $salePrice = $basePrice - ($basePrice * $discountPercent / 100);
 
-                        'sku' => 'P' . $product->id . '-' . $size . '-' . Str::upper(Str::ascii($color)),
-
-                        'price' => $basePrice + rand(0, 20000),
-                        'sale_price' => null,
-
-                        'stock' => rand(1, 30),
-                    ]);
+                    ProductVariant::updateOrCreate(
+                        [
+                            'sku' => $sku
+                        ],
+                        [
+                            'product_id' => $product->id,
+                            'color' => $color,
+                            'size' => $size,
+                            'price' => $basePrice,
+                            'sale_price' => round($salePrice), // 🔥 làm tròn
+                            'stock' => rand(5, 20),
+                        ]
+                    );
                 }
             }
         }

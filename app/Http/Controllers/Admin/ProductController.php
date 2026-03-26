@@ -14,7 +14,9 @@ class ProductController extends Controller
     public function index()
     {
         //
-        $products = Product::latest()->paginate(10); // phân trang 10 sản phẩm/trang
+        $products = Product::with(['category', 'variants'])
+            ->latest()
+            ->paginate(10);
 
         return view('admin.products.index', compact('products'));
     }
@@ -38,9 +40,11 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show($id)
     {
         //
+        $product = Product::with('variants', 'category')->findOrFail($id);
+        return view('admin.products.show', compact('product'));
     }
 
     /**

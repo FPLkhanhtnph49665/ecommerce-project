@@ -20,6 +20,7 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
             $table->decimal('sale_price', 10, 2)->nullable();
             $table->integer('stock')->default(0);
+             $table->unique(['product_id', 'color', 'size']);
             $table->string('image')->nullable();
 
             $table->timestamps();
