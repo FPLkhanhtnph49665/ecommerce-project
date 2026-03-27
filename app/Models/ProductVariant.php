@@ -36,5 +36,16 @@ class ProductVariant extends Model
         static::deleted(function ($variant) {
             $variant->product->updateStock();
         });
+
+         static::creating(function ($variant) {
+        if (!$variant->sku) {
+            // Lấy chữ cái đầu của color, in hoa
+            $colorAbbr = strtoupper(substr($variant->color, 0, 1));
+            // Lấy size in hoa
+            $sizeAbbr = strtoupper($variant->size);
+            // SKU: P{product_id}-{color}-{size}
+            $variant->sku = "P{$variant->product_id}-{$colorAbbr}-{$sizeAbbr}";
+        }
+    });
     }
 }

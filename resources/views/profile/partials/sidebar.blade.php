@@ -1,5 +1,4 @@
-<div class="d-flex flex-column bg-dark text-white p-3 shadow-lg"
-     style="width:260px; min-height:100vh;">
+<div class="d-flex flex-column bg-dark text-white p-3 shadow-lg" style="width:260px; min-height:100vh;">
 
     <!-- Logo -->
     <div class="mb-4 text-center">
@@ -12,7 +11,7 @@
 
         <li>
             <a href="{{ route('admin.dashboard') }}"
-               class="nav-link d-flex align-items-center gap-2 text-white {{ request()->routeIs('admin.dashboard') ? 'active bg-primary shadow-sm' : '' }}">
+                class="nav-link d-flex align-items-center gap-2 text-white {{ request()->routeIs('admin.dashboard') ? 'active bg-primary shadow-sm' : '' }}">
                 <i class="bi bi-speedometer2"></i>
                 <span>Dashboard</span>
             </a>
@@ -20,7 +19,7 @@
 
         <li>
             <a href="{{ route('admin.categories.index') }}"
-               class="nav-link d-flex align-items-center gap-2 text-white {{ request()->routeIs('admin.categories.*') ? 'active bg-primary shadow-sm' : '' }}">
+                class="nav-link d-flex align-items-center gap-2 text-white {{ request()->routeIs('admin.categories.*') ? 'active bg-primary shadow-sm' : '' }}">
                 <i class="bi bi-folder"></i>
                 <span>Danh mục</span>
             </a>
@@ -28,30 +27,36 @@
 
         <li>
             <a href="{{ route('admin.products.index') }}"
-               class="nav-link d-flex align-items-center gap-2 text-white {{ request()->routeIs('admin.products.*') ? 'active bg-primary shadow-sm' : '' }}">
+                class="nav-link d-flex align-items-center gap-2 text-white {{ request()->routeIs('admin.products.*') ? 'active bg-primary shadow-sm' : '' }}">
                 <i class="bi bi-box-seam"></i>
                 <span>Sản phẩm</span>
             </a>
         </li>
         <li>
             <a href="{{ route('admin.variants.index') }}"
-               class="nav-link d-flex align-items-center gap-2 text-white {{ request()->routeIs('admin.products.*') ? 'active bg-primary shadow-sm' : '' }}">
+                class="nav-link d-flex align-items-center gap-2 text-white {{ request()->routeIs('admin.variants.*') ? 'active bg-primary shadow-sm' : '' }}">
                 <i class="bi bi-box-seam"></i>
                 <span>Biến thể sản phẩm</span>
             </a>
         </li>
 
         <li>
+            <a href="{{ route('admin.contacts.index') }}"
+                class="nav-link d-flex align-items-center gap-2 text-white {{ request()->routeIs('admin.contacts.*') ? 'active bg-primary shadow-sm' : '' }}">
+                <i class="bi bi-envelope"></i>
+                <span>Liên hệ</span>
+            </a>
+        </li>
+        <li>
             <a href="{{ route('admin.orders.index') }}"
-               class="nav-link d-flex align-items-center gap-2 text-white {{ request()->routeIs('admin.orders.*') ? 'active bg-primary shadow-sm' : '' }}">
+                class="nav-link d-flex align-items-center gap-2 text-white {{ request()->routeIs('admin.orders.*') ? 'active bg-primary shadow-sm' : '' }}">
                 <i class="bi bi-receipt"></i>
                 <span>Đơn hàng</span>
             </a>
         </li>
 
         <li>
-            <a href="#"
-               class="nav-link d-flex align-items-center gap-2 text-white">
+            <a href="{{ route('admin.users.index') }}" class="nav-link d-flex align-items-center gap-2 text-white">
                 <i class="bi bi-people"></i>
                 <span>Khách hàng</span>
             </a>

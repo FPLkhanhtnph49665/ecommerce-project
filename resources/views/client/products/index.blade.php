@@ -117,10 +117,9 @@
     </div>
 
     <!-- PAGINATION -->
-    <div class="d-flex justify-content-center">
-        {{ $products->appends(request()->query())->links() }}
-    </div>
-
+    <div class="d-flex justify-content-center mt-3">
+    {{ $products->appends(request()->query())->links('pagination::bootstrap-5') }}
+</div>
 </div>
 
 @endsection

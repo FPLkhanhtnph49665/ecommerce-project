@@ -138,13 +138,48 @@
     </main>
 
     <!-- 🔥 FOOTER -->
-    <footer class="bg-dark text-white py-3">
-        <div class="container text-center">
-            <p class="mb-0 small">
-                © {{ date('Y') }} Ất Dậu E-Commerce Project. All rights reserved.
-            </p>
+    <footer class="bg-dark text-white pt-5 pb-3">
+    <div class="container">
+        <div class="row">
+
+            <!-- Logo / Tên shop -->
+            <div class="col-md-4 mb-3 text-center text-md-start">
+                <h5 class="fw-bold">Ất Dậu E-Commerce</h5>
+                <p class="small">Nơi mua sắm uy tín – Giá tốt – Giao hàng nhanh</p>
+            </div>
+
+            <!-- Link nhanh -->
+            <div class="col-md-4 mb-3">
+                <h6 class="fw-bold">Liên kết nhanh</h6>
+                <ul class="list-unstyled">
+                    <li><a href="{{ route('home') }}" class="text-white text-decoration-none">Trang chủ</a></li>
+                    <li><a href="{{ route('products.index') }}" class="text-white text-decoration-none">Sản phẩm</a></li>
+                    <li><a href="{{ route('contact') }}" class="text-white text-decoration-none">Liên hệ</a></li>
+                </ul>
+            </div>
+
+            <!-- Liên hệ & mạng xã hội -->
+            <div class="col-md-4 mb-3">
+                <h6 class="fw-bold">Liên hệ</h6>
+                <p class="small mb-1">Email: support@atudau.com</p>
+                <p class="small mb-1">Hotline: 0123 456 789</p>
+                <div class="d-flex gap-2">
+                    <a href="#" class="text-white fs-5"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="text-white fs-5"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-white fs-5"><i class="bi bi-twitter"></i></a>
+                </div>
+            </div>
+
         </div>
-    </footer>
+
+        <hr class="bg-secondary">
+
+        <!-- Copyright -->
+        <div class="text-center small">
+            © {{ date('Y') }} Ất Dậu E-Commerce Project. All rights reserved.
+        </div>
+    </div>
+</footer>
 
     <!-- JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
